@@ -10,6 +10,7 @@ package com.security.sfd_groupa;
  */
 public class MainFrame extends javax.swing.JFrame {
 
+    private GUIManager guiLiaison;
     /**
      * Creates new form MainFrame
      */
@@ -26,16 +27,26 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
+        quitBTN = new javax.swing.JButton();
+        createAccountBTN = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Main Menu");
         setName("mainFrame"); // NOI18N
 
-        jButton1.setText("Quit");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        quitBTN.setText("Quit");
+        quitBTN.setName("quitBTN"); // NOI18N
+        quitBTN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                quitBTNActionPerformed(evt);
+            }
+        });
+
+        createAccountBTN.setText("Create Account");
+        createAccountBTN.setName("createBTN"); // NOI18N
+        createAccountBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createAccountBTNActionPerformed(evt);
             }
         });
 
@@ -44,26 +55,38 @@ public class MainFrame extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(306, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addGap(16, 16, 16)
+                .addComponent(createAccountBTN)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 179, Short.MAX_VALUE)
+                .addComponent(quitBTN)
                 .addGap(22, 22, 22))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(259, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(quitBTN)
+                    .addComponent(createAccountBTN))
                 .addGap(18, 18, 18))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void quitBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitBTNActionPerformed
         // TODO add your handling code here:
         System.exit(0);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_quitBTNActionPerformed
 
+    private void createAccountBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createAccountBTNActionPerformed
+        // TODO add your handling code here:
+        guiLiaison.setCurrentFrame("createAccountFrame");
+    }//GEN-LAST:event_createAccountBTNActionPerformed
+
+    public void setGUILiaison(GUIManager manager) {
+        guiLiaison = manager;
+    }
     /**
      * @param args the command line arguments
      */
@@ -100,6 +123,7 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton createAccountBTN;
+    private javax.swing.JButton quitBTN;
     // End of variables declaration//GEN-END:variables
 }
