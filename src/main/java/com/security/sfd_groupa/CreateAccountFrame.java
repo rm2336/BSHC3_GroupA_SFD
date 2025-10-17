@@ -4,6 +4,8 @@
  */
 package com.security.sfd_groupa;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author rokom
@@ -11,6 +13,7 @@ package com.security.sfd_groupa;
 public class CreateAccountFrame extends javax.swing.JFrame {
 
     private GUIManager guiLiaison;
+    private PasswordManager passwordLiaison;
     /**
      * Creates new form CreateAccountFrame
      */
@@ -63,6 +66,11 @@ public class CreateAccountFrame extends javax.swing.JFrame {
         });
 
         confirmBTN.setText("Confirm");
+        confirmBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                confirmBTNActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -120,8 +128,37 @@ public class CreateAccountFrame extends javax.swing.JFrame {
         guiLiaison.setCurrentFrame("mainFrame");
     }//GEN-LAST:event_backBTNActionPerformed
 
+    private void confirmBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmBTNActionPerformed
+        // TODO add your handling code here:
+        String username = nameTF.getText();
+        String password = passwordTF.getText();
+        // Validate input
+        if (username.isBlank() || username.contains(" ")) {
+            JOptionPane.showMessageDialog(rootPane, "Invalid username. Make sure there are no white spaces.");
+            return;
+        }
+        if (password.isBlank() || password.contains(" ")) {
+            JOptionPane.showMessageDialog(rootPane, "Invalid password. Make sure there are no white spaces.");
+            return;         
+        }
+        if (passwordLiaison.assertUsernameTaken(username)) {
+            JOptionPane.showMessageDialog(rootPane, "User name is already taken!");
+            return;
+        }
+        String hash = passwordLiaison.computePassHash(password);
+        passwordLiaison.storeCredentials(username, hash);
+        JOptionPane.showMessageDialog(rootPane, "Account has been created!");
+        nameTF.setText("");
+        passwordTF.setText("");
+        guiLiaison.setCurrentFrame("mainFrame");
+    }//GEN-LAST:event_confirmBTNActionPerformed
+
     public void setGUILiaison(GUIManager manager) {
         guiLiaison = manager;
+    }
+    
+    public void setPasswordLiaison(PasswordManager manager) {
+        passwordLiaison = manager;
     }
     /**
      * @param args the command line arguments
