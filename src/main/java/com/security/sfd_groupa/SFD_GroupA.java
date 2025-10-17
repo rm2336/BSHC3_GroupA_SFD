@@ -24,8 +24,13 @@ public class SFD_GroupA {
         guiManager.addFrame(createAccountFrame);
         guiManager.setCurrentFrame("mainFrame");
         
-        //Pass references of the GUI manager to the frames
+        // Pass references of the GUI manager to the frames
         mainMenu.setGUILiaison(guiManager);
         createAccountFrame.setGUILiaison(guiManager);
+        
+        // Initialise the password manager
+        PasswordManager passwordManager = new PasswordManager();
+        createAccountFrame.setPasswordLiaison(passwordManager);
+        mainMenu.setPasswordLiaison(passwordManager);
     }
 }
