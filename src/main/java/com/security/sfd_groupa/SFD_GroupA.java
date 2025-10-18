@@ -32,5 +32,9 @@ public class SFD_GroupA {
         PasswordManager passwordManager = new PasswordManager();
         createAccountFrame.setPasswordLiaison(passwordManager);
         mainMenu.setPasswordLiaison(passwordManager);
+       
+        // Initialise the EncryptRecord class
+        EncryptRecord encryptor = new EncryptRecord();
+        System.out.println(encryptor.toString());
     }
 }
