@@ -3,9 +3,11 @@ com\security\sfd_groupa\CreateAccountFrame$4.class
 com\security\sfd_groupa\MainFrame.class
 com\security\sfd_groupa\CreateAccountFrame$5.class
 com\security\sfd_groupa\GUIManager.class
+com\security\sfd_groupa\EncryptRecord.class
 com\security\sfd_groupa\MainFrame$1.class
 com\security\sfd_groupa\CreateAccountFrame$2.class
 com\security\sfd_groupa\MainFrame$2.class
+com\security\sfd_groupa\PatientRecord.class
 com\security\sfd_groupa\PasswordManager.class
 com\security\sfd_groupa\CreateAccountFrame$1.class
 com\security\sfd_groupa\CreateAccountFrame.class

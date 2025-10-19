@@ -5,20 +5,19 @@
                              https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-
-    <groupId>com.mycompany</groupId>
-    <artifactId>PatientRecordCrypto</artifactId>
+    <groupId>com.security</groupId>
+    <artifactId>SFD_GroupA</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>PatientRecordCrypto</name>
+    <name>SFD_GroupA</name>
     <description>A simple patient record encryption application</description>
 
     <properties>
         <!-- Use Java 17 or 21 LTS for better compatibility -->
         <maven.compiler.release>17</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <exec.mainClass>com.mycompany.patientrecordcrypto.EncryptRecord</exec.mainClass>
+        <exec.mainClass>com.security.sfd_groupa.SFD_GroupA</exec.mainClass>
     </properties>
     <build>
         <plugins>
