@@ -22,14 +22,28 @@ import java.util.ArrayList;
  */
 public class GUIManager {
     private ArrayList<javax.swing.JFrame> frameList;
+    private PasswordManager passwordLiaison;
     
     public GUIManager() {
         frameList = new ArrayList<>();
     }
     
+    public void setPasswordLiaison(PasswordManager manager) {
+        passwordLiaison = manager;
+    }
+    
     public void addFrame(javax.swing.JFrame frame) {
         frameList.add(frame);
         System.out.println("Adding frame " + frame.getName() + "...");
+    }
+    
+    public javax.swing.JFrame getFrame(String frameName) {
+        for (javax.swing.JFrame frame: frameList) {
+            if (frame.getName().equals(frameName)) {
+                return frame;
+            } 
+        }
+        return null;
     }
     
     public void setCurrentFrame(String frameName) {
@@ -41,6 +55,14 @@ public class GUIManager {
             }
             else
                 frame.setVisible(false);
+        }
+        // load database settings
+        if (frameName.equals("databaseSettingsFrame")) {
+            ((DatabaseSettingsFrame)getFrame("databaseSettingsFrame")).getHostTF().setText(passwordLiaison.getSql_hostName());
+            ((DatabaseSettingsFrame)getFrame("databaseSettingsFrame")).getPortTF().setText(passwordLiaison.getSql_portNo());
+            ((DatabaseSettingsFrame)getFrame("databaseSettingsFrame")).getDatabaseTF().setText(passwordLiaison.getSql_databaseName());
+            ((DatabaseSettingsFrame)getFrame("databaseSettingsFrame")).getUserTF().setText(passwordLiaison.getSql_userName());
+            ((DatabaseSettingsFrame)getFrame("databaseSettingsFrame")).getPasswordTF().setText(passwordLiaison.getSql_password());
         }
     }
 }

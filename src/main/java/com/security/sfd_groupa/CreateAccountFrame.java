@@ -146,8 +146,10 @@ public class CreateAccountFrame extends javax.swing.JFrame {
             return;
         }
         String hash = passwordLiaison.computePassHash(password);
-        passwordLiaison.storeCredentials(username, hash);
-        JOptionPane.showMessageDialog(rootPane, "Account has been created!");
+        if (passwordLiaison.storeCredentials(username, hash))
+            JOptionPane.showMessageDialog(rootPane, "Account has been created!");
+        else
+            JOptionPane.showMessageDialog(rootPane, "Could not create account.");
         nameTF.setText("");
         passwordTF.setText("");
         guiLiaison.setCurrentFrame("mainFrame");
