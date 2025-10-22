@@ -4,6 +4,8 @@
  */
 package com.security.sfd_groupa;
 
+import java.util.HashSet;
+import java.util.Set;
 import javax.swing.JOptionPane;
 
 /**
@@ -14,6 +16,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private GUIManager guiLiaison;
     private PasswordManager passwordLiaison;
+    private MySQLConnection sqlCon;
     
     /**
      * Creates new form MainFrame
@@ -38,6 +41,7 @@ public class MainFrame extends javax.swing.JFrame {
         passwordTF = new javax.swing.JTextField();
         userTF = new javax.swing.JTextField();
         loginBTN = new javax.swing.JButton();
+        dbaseBTN = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Main Menu");
@@ -70,6 +74,13 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        dbaseBTN.setText("Database Settings");
+        dbaseBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dbaseBTNActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -91,13 +102,15 @@ public class MainFrame extends javax.swing.JFrame {
                                 .addComponent(userTF, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap(100, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(dbaseBTN)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(quitBTN)
                         .addGap(19, 19, 19))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(loginBTN)
-                .addGap(146, 146, 146))
+                .addGap(154, 154, 154))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -110,12 +123,13 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(passwordLBL)
                     .addComponent(passwordTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(29, 29, 29)
+                .addGap(30, 30, 30)
                 .addComponent(loginBTN)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(quitBTN)
-                    .addComponent(createAccountBTN))
+                    .addComponent(createAccountBTN)
+                    .addComponent(dbaseBTN))
                 .addGap(18, 18, 18))
         );
 
@@ -143,6 +157,12 @@ public class MainFrame extends javax.swing.JFrame {
         else
             JOptionPane.showMessageDialog(rootPane, "Could not reconcile credentials.");
     }//GEN-LAST:event_loginBTNActionPerformed
+
+    private void dbaseBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dbaseBTNActionPerformed
+        // TODO add your handling code here:
+        guiLiaison.setCurrentFrame("databaseSettingsFrame");
+        
+    }//GEN-LAST:event_dbaseBTNActionPerformed
 
     public void setGUILiaison(GUIManager manager) {
         guiLiaison = manager;
@@ -188,6 +208,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton createAccountBTN;
+    private javax.swing.JButton dbaseBTN;
     private javax.swing.JButton loginBTN;
     private javax.swing.JLabel passwordLBL;
     private javax.swing.JTextField passwordTF;
