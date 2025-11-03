@@ -20,6 +20,7 @@ public class DatabaseSettingsFrame extends javax.swing.JFrame {
 
     private GUIManager guiLiaison;
     private PasswordManager passwordLiaison;
+    private boolean localDatabase = false;
     
     /**
      * Creates new form DatabaseSettingsFrame
@@ -37,6 +38,7 @@ public class DatabaseSettingsFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        databaseBG = new javax.swing.ButtonGroup();
         backBTN = new javax.swing.JButton();
         confirmBTN = new javax.swing.JButton();
         hostTF = new javax.swing.JTextField();
@@ -49,6 +51,12 @@ public class DatabaseSettingsFrame extends javax.swing.JFrame {
         databaseLBL = new javax.swing.JLabel();
         userLBL = new javax.swing.JLabel();
         passwordLBL = new javax.swing.JLabel();
+        settingLBL = new javax.swing.JLabel();
+        localRB = new javax.swing.JRadioButton();
+        remoteRB = new javax.swing.JRadioButton();
+        jSeparator1 = new javax.swing.JSeparator();
+        titleLBL = new javax.swing.JLabel();
+        title2LBL = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setName("databaseSettingsFrame"); // NOI18N
@@ -77,6 +85,28 @@ public class DatabaseSettingsFrame extends javax.swing.JFrame {
 
         passwordLBL.setText("Password:");
 
+        settingLBL.setText("Save Usernames and Passwords on PC:");
+
+        databaseBG.add(localRB);
+        localRB.setText("Yes");
+        localRB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                localRBActionPerformed(evt);
+            }
+        });
+
+        databaseBG.add(remoteRB);
+        remoteRB.setText("No");
+        remoteRB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                remoteRBActionPerformed(evt);
+            }
+        });
+
+        titleLBL.setText("SQL Settings");
+
+        title2LBL.setText("User Settings");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -85,36 +115,51 @@ public class DatabaseSettingsFrame extends javax.swing.JFrame {
                 .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(hostLBL, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(portLBL, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(databaseLBL))
-                                .addGap(41, 41, 41))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(userLBL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(57, 57, 57))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(passwordLBL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(hostTF)
-                            .addComponent(portTF)
-                            .addComponent(databaseTF)
-                            .addComponent(userTF)
-                            .addComponent(passwordTF, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE))
-                        .addContainerGap(84, Short.MAX_VALUE))
+                        .addComponent(settingLBL)
+                        .addGap(31, 31, 31)
+                        .addComponent(localRB, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(56, 56, 56)
+                        .addComponent(remoteRB, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(backBTN)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(confirmBTN)
-                        .addGap(36, 36, 36))))
+                        .addGap(36, 36, 36))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(title2LBL, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(userLBL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGap(57, 57, 57))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(hostLBL, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(portLBL, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(databaseLBL))
+                                        .addGap(41, 41, 41))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(passwordLBL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(hostTF)
+                                    .addComponent(portTF)
+                                    .addComponent(databaseTF)
+                                    .addComponent(userTF)
+                                    .addComponent(passwordTF, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)))
+                            .addComponent(titleLBL))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(21, 21, 21)
+                .addComponent(titleLBL)
+                .addGap(5, 5, 5)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(hostTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(hostLBL))
@@ -134,7 +179,20 @@ public class DatabaseSettingsFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(passwordTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(passwordLBL))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 17, Short.MAX_VALUE)
+                        .addGap(31, 31, 31))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(title2LBL)
+                        .addGap(18, 18, 18)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(settingLBL)
+                    .addComponent(localRB)
+                    .addComponent(remoteRB))
+                .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(backBTN)
                     .addComponent(confirmBTN))
@@ -161,28 +219,22 @@ public class DatabaseSettingsFrame extends javax.swing.JFrame {
         passwordLiaison.getSql_databaseName(), passwordLiaison.getSql_userName(), passwordLiaison.getSql_password());
         if (conn.testConnection()) {
             JOptionPane.showMessageDialog(rootPane, "Connection successfully established!");
-            File f = new File("sqlsettings.txt");
-            try {
-                FileWriter fw = new FileWriter(f);
-                fw.write(passwordLiaison.getSql_hostName());
-                fw.write("\n");
-                fw.write(passwordLiaison.getSql_portNo());
-                fw.write("\n");
-                fw.write(passwordLiaison.getSql_databaseName());
-                fw.write("\n");
-                fw.write(passwordLiaison.getSql_userName());
-                fw.write("\n");
-                fw.write(passwordLiaison.getSql_password());
-                fw.close();
-                System.out.println("Writing credentials to file...");
-            } catch (IOException ex) {
-                System.out.println(ex.getMessage());
-            }
+            passwordLiaison.storeSQLCredentialsLocally();
             guiLiaison.setCurrentFrame("mainFrame");
         }
         else
             JOptionPane.showMessageDialog(rootPane, "Could not establish connection. Please check your input.");
     }//GEN-LAST:event_confirmBTNActionPerformed
+
+    private void remoteRBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_remoteRBActionPerformed
+        // TODO add your handling code here:
+        localDatabase = false;
+    }//GEN-LAST:event_remoteRBActionPerformed
+
+    private void localRBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_localRBActionPerformed
+        // TODO add your handling code here:
+        localDatabase = true;
+    }//GEN-LAST:event_localRBActionPerformed
 
     /**
      * @param args the command line arguments
@@ -209,6 +261,9 @@ public class DatabaseSettingsFrame extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(DatabaseSettingsFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
@@ -247,19 +302,28 @@ public class DatabaseSettingsFrame extends javax.swing.JFrame {
         return userTF;
     }
     
-    
+    public boolean isLocalDatabase() {
+        return localDatabase;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backBTN;
     private javax.swing.JButton confirmBTN;
+    private javax.swing.ButtonGroup databaseBG;
     private javax.swing.JLabel databaseLBL;
     private javax.swing.JTextField databaseTF;
     private javax.swing.JLabel hostLBL;
     private javax.swing.JTextField hostTF;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JRadioButton localRB;
     private javax.swing.JLabel passwordLBL;
     private javax.swing.JTextField passwordTF;
     private javax.swing.JLabel portLBL;
     private javax.swing.JTextField portTF;
+    private javax.swing.JRadioButton remoteRB;
+    private javax.swing.JLabel settingLBL;
+    private javax.swing.JLabel title2LBL;
+    private javax.swing.JLabel titleLBL;
     private javax.swing.JLabel userLBL;
     private javax.swing.JTextField userTF;
     // End of variables declaration//GEN-END:variables

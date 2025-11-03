@@ -10,6 +10,7 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.Cipher;
 import java.io.*;
+import java.util.Base64;
 
 
 /**
@@ -63,10 +64,10 @@ public class EncryptRecord {
         try{ //try clause
             
             //"Simplest way to encrypt a text file in Java" (https://stackoverflow.com/questions/27962116/simplest-way-to-encrypt-a-text-file-in-java)
-            KeyGenerator keyGenerator = KeyGenerator.getInstance("DES"); //create a DES key generator
-            SecretKey myDESKey = keyGenerator.generateKey(); //create a key for DES encryption
-        
-            Cipher DESCipher = Cipher.getInstance("DES"); //create a cipher object for DES encryption
+            KeyGenerator keyGenerator = KeyGenerator.getInstance("AES"); //create a AES key generator
+            SecretKey myAESKey = keyGenerator.generateKey(); //create a key for AES encryption
+            keyGenerator.init(128); //setting the key size to 128 bits using the AES encryption
+            Cipher AESCipher = Cipher.getInstance("AES"); //create a cipher object for AES encryption
         
             //creating a patient record and initializing patient record variables
             PatientRecord record = new PatientRecord();
@@ -81,25 +82,32 @@ public class EncryptRecord {
             record.clinSrc = "Gorey Family Practice";
             byte[] text = record.toString().getBytes("UTF-8"); //converting the patient record to a byte array using UTF-8
             
-            DESCipher.init(Cipher.ENCRYPT_MODE, myDESKey); //initializing cipher object to generate encrypted key
-            byte[] textEncrypted = DESCipher.doFinal(text); //encrypting the text in the byte array
+            AESCipher.init(Cipher.ENCRYPT_MODE, myAESKey); //initializing cipher object to generate encrypted key
+            byte[] textEncrypted = AESCipher.doFinal(text); //encrypting the text in the byte array
             
-            //writing the ecrypted text to a file
-            try (FileOutputStream fos = new FileOutputStream("PatientRecord_Encrypted.txt")){
-                fos.write(textEncrypted);
+            
+            //printing encrypted text as base 64 encoded
+            String textEncoded64 = java.util.Base64.getEncoder().encodeToString(textEncrypted);
+            System.out.println("Encrypted record:");
+            System.out.println(textEncoded64);
+            
+            //writing the ecrypted text to a file 
+            try (FileWriter textFile = new FileWriter("PatientRecord_Encrypted_AES.txt")){
+                textFile.write(textEncoded64);
             }
             
-            //printing encrypted text
-            String s = new String(textEncrypted);
-            System.out.println(s);
             
             //initializing cipher object in using the same generated key to decrypt data
-            DESCipher.init(Cipher.DECRYPT_MODE, myDESKey);
-            byte[] textDecrypted = DESCipher.doFinal(textEncrypted);
+            AESCipher.init(Cipher.DECRYPT_MODE, myAESKey);
+            byte[] textDecrypted = AESCipher.doFinal(textEncrypted);
             
             //print decrypted patient record
-            s = new String(textDecrypted);
-            System.out.println(s);
+             String textDecoded64 = new String(textDecrypted);
+            System.out.println(textDecoded64);
+            
+            PatientRecordSQLCon.insertEncryptedRecord(record.ID, textEncoded64);
+            
+            
             
          //exception handler
         }catch(Exception e){
@@ -108,6 +116,18 @@ public class EncryptRecord {
         
         
         
+    }
+
+    public static String encryptRecord(PatientRecord record) throws Exception {
+        KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
+        keyGenerator.init(128);
+        SecretKey myAESKey = keyGenerator.generateKey();
+        Cipher AESCipher = Cipher.getInstance("AES");
+        AESCipher.init(Cipher.ENCRYPT_MODE, myAESKey);
+        
+        byte[] text = record.toString().getBytes("UTF-8");
+        byte[] textEncrypted = AESCipher.doFinal(text);
+        return Base64.getEncoder().encodeToString(textEncrypted);
     }
 }
     

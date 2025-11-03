@@ -1,6 +1,0 @@
-MySQLAssertDuplicateUsernameTest.class
-MySQLCreateCredentialsTableTest.class
-MySQLPopulateTableTest.class
-PasswordTest.class
-RemotePasswordTest.class
-MySQLCreateTableTest.class

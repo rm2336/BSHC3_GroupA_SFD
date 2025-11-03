@@ -18,18 +18,21 @@ public class SFD_GroupA {
         MainFrame mainMenu = new MainFrame();
         CreateAccountFrame createAccountFrame = new CreateAccountFrame();
         DatabaseSettingsFrame databaseSettingsFrame = new DatabaseSettingsFrame();
+        PatientRecordForm patientRecordForm = new PatientRecordForm();
         
         // Initialise GUI manager and add the above frames
         GUIManager guiManager = new GUIManager();
         guiManager.addFrame(mainMenu);
         guiManager.addFrame(createAccountFrame);
         guiManager.addFrame(databaseSettingsFrame);
+        guiManager.addFrame(patientRecordForm);
         guiManager.setCurrentFrame("mainFrame");
         
         // Pass references of the GUI manager to the frames
         mainMenu.setGUILiaison(guiManager);
         createAccountFrame.setGUILiaison(guiManager);
         databaseSettingsFrame.setGUILiaison(guiManager);
+        patientRecordForm.setGUILiaison(guiManager);
         
         // Initialise the password manager
         PasswordManager passwordManager = new PasswordManager();
