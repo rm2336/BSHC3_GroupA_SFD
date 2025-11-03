@@ -4,13 +4,14 @@
  */
 package com.security.sfd_groupa;
 
-import java.util.HashSet;
-import java.util.Set;
 import javax.swing.JOptionPane;
+import org.bouncycastle.util.Arrays;
 
 /**
  *
  * @author rokom
+ * https://docs.oracle.com/en/java/javase/21/docs/api/java.desktop/javax/swing/JPasswordField.html#getPassword()
+ * Password should be cleared from memory as soon as possible
  */
 public class MainFrame extends javax.swing.JFrame {
 
@@ -38,10 +39,11 @@ public class MainFrame extends javax.swing.JFrame {
         createAccountBTN = new javax.swing.JButton();
         userLBL = new javax.swing.JLabel();
         passwordLBL = new javax.swing.JLabel();
-        passwordTF = new javax.swing.JTextField();
         userTF = new javax.swing.JTextField();
         loginBTN = new javax.swing.JButton();
         dbaseBTN = new javax.swing.JButton();
+        passwordPF = new javax.swing.JPasswordField();
+        showPasswordCKB = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Main Menu");
@@ -81,6 +83,13 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        showPasswordCKB.setText("Show Password");
+        showPasswordCKB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showPasswordCKBActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -91,22 +100,20 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(passwordLBL, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(userLBL, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(createAccountBTN))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(17, 17, 17)
-                                .addComponent(passwordTF, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(userTF, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(100, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
                         .addComponent(dbaseBTN)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
                         .addComponent(quitBTN)
-                        .addGap(19, 19, 19))))
+                        .addGap(19, 19, 19))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(userTF, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
+                            .addComponent(passwordPF))
+                        .addGap(18, 18, 18)
+                        .addComponent(showPasswordCKB)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(loginBTN)
@@ -122,7 +129,8 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(passwordLBL)
-                    .addComponent(passwordTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(passwordPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(showPasswordCKB))
                 .addGap(30, 30, 30)
                 .addComponent(loginBTN)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
@@ -150,10 +158,15 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         // Verify if the credentials match
         String username = userTF.getText();
-        String password = passwordTF.getText();
+        char[] passwordChars = passwordPF.getPassword();
+        String password = new String(passwordChars);
+        Arrays.fill(passwordChars, 'a');
+        // Overwrite the character array as soon as possible to prevent accidental exposure via a crash log etc.
         boolean matches = passwordLiaison.assertCredentialsCorrect(username, password);
-        if (matches)
+        if (matches) {
             JOptionPane.showMessageDialog(rootPane, "Login is successful!");
+            guiLiaison.setCurrentFrame("patientRecordFrame");
+        }
         else
             JOptionPane.showMessageDialog(rootPane, "Could not reconcile credentials.");
     }//GEN-LAST:event_loginBTNActionPerformed
@@ -163,6 +176,14 @@ public class MainFrame extends javax.swing.JFrame {
         guiLiaison.setCurrentFrame("databaseSettingsFrame");
         
     }//GEN-LAST:event_dbaseBTNActionPerformed
+
+    private void showPasswordCKBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showPasswordCKBActionPerformed
+        // TODO add your handling code here:
+        if (showPasswordCKB.isSelected())
+            passwordPF.setEchoChar((char)0);
+        else
+            passwordPF.setEchoChar('\u2022');
+    }//GEN-LAST:event_showPasswordCKBActionPerformed
 
     public void setGUILiaison(GUIManager manager) {
         guiLiaison = manager;
@@ -211,8 +232,9 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton dbaseBTN;
     private javax.swing.JButton loginBTN;
     private javax.swing.JLabel passwordLBL;
-    private javax.swing.JTextField passwordTF;
+    private javax.swing.JPasswordField passwordPF;
     private javax.swing.JButton quitBTN;
+    private javax.swing.JCheckBox showPasswordCKB;
     private javax.swing.JLabel userLBL;
     private javax.swing.JTextField userTF;
     // End of variables declaration//GEN-END:variables

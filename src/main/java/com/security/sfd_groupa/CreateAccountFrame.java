@@ -4,7 +4,9 @@
  */
 package com.security.sfd_groupa;
 
+import java.awt.Color;
 import javax.swing.JOptionPane;
+import org.bouncycastle.util.Arrays;
 
 /**
  *
@@ -31,11 +33,17 @@ public class CreateAccountFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         nameTF = new javax.swing.JTextField();
-        passwordTF = new javax.swing.JTextField();
         nameLBL = new javax.swing.JLabel();
         passwordLBL = new javax.swing.JLabel();
         backBTN = new javax.swing.JButton();
         confirmBTN = new javax.swing.JButton();
+        showPasswordCKB = new javax.swing.JCheckBox();
+        passwordPF = new javax.swing.JPasswordField();
+        strengthPB = new javax.swing.JProgressBar();
+        strengthLBL = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        hintTA = new javax.swing.JTextArea();
+        progressLBL = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setName("createAccountFrame"); // NOI18N
@@ -44,13 +52,6 @@ public class CreateAccountFrame extends javax.swing.JFrame {
         nameTF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nameTFActionPerformed(evt);
-            }
-        });
-
-        passwordTF.setName("nameTF"); // NOI18N
-        passwordTF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                passwordTFActionPerformed(evt);
             }
         });
 
@@ -72,27 +73,63 @@ public class CreateAccountFrame extends javax.swing.JFrame {
             }
         });
 
+        showPasswordCKB.setText("Show Password");
+        showPasswordCKB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showPasswordCKBActionPerformed(evt);
+            }
+        });
+
+        passwordPF.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                passwordPFKeyReleased(evt);
+            }
+        });
+
+        strengthLBL.setText("Password Strength:");
+
+        hintTA.setEditable(false);
+        hintTA.setBackground(new java.awt.Color(224, 224, 224));
+        hintTA.setColumns(20);
+        hintTA.setLineWrap(true);
+        hintTA.setRows(5);
+        hintTA.setWrapStyleWord(true);
+        hintTA.setAutoscrolls(false);
+        jScrollPane1.setViewportView(hintTA);
+
+        progressLBL.setText("...");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(19, 19, 19)
+                .addComponent(backBTN)
+                .addGap(46, 46, 46)
+                .addComponent(jScrollPane1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(confirmBTN)
+                    .addComponent(progressLBL, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(38, 38, 38))
+            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(strengthLBL))
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(19, 19, 19)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(nameLBL, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(passwordLBL, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(passwordTF, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(nameTF, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(56, 56, 56))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(backBTN)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(confirmBTN)
-                        .addGap(38, 38, 38))))
+                            .addComponent(passwordLBL, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 99, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(nameTF, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
+                    .addComponent(showPasswordCKB)
+                    .addComponent(passwordPF)
+                    .addComponent(strengthPB, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(56, 56, 56))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -103,12 +140,23 @@ public class CreateAccountFrame extends javax.swing.JFrame {
                     .addComponent(nameLBL))
                 .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(passwordTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(passwordLBL))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 119, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(backBTN)
-                    .addComponent(confirmBTN))
+                    .addComponent(passwordLBL)
+                    .addComponent(passwordPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(showPasswordCKB)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(strengthPB, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(strengthLBL))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(progressLBL)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(backBTN)
+                            .addComponent(confirmBTN))))
                 .addGap(17, 17, 17))
         );
 
@@ -119,10 +167,6 @@ public class CreateAccountFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_nameTFActionPerformed
 
-    private void passwordTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordTFActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_passwordTFActionPerformed
-
     private void backBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBTNActionPerformed
         // TODO add your handling code here:
         guiLiaison.setCurrentFrame("mainFrame");
@@ -131,7 +175,9 @@ public class CreateAccountFrame extends javax.swing.JFrame {
     private void confirmBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmBTNActionPerformed
         // TODO add your handling code here:
         String username = nameTF.getText();
-        String password = passwordTF.getText();
+        char[] passwordChars = passwordPF.getPassword();
+        String password = new String(passwordChars);
+        Arrays.fill(passwordChars, 'a');
         // Validate input
         if (username.isBlank() || username.contains(" ")) {
             JOptionPane.showMessageDialog(rootPane, "Invalid username. Make sure there are no white spaces.");
@@ -146,14 +192,57 @@ public class CreateAccountFrame extends javax.swing.JFrame {
             return;
         }
         String hash = passwordLiaison.computePassHash(password);
-        if (passwordLiaison.storeCredentials(username, hash))
+        if (passwordLiaison.storeCredentialsRemotely(username, hash))
             JOptionPane.showMessageDialog(rootPane, "Account has been created!");
         else
             JOptionPane.showMessageDialog(rootPane, "Could not create account.");
         nameTF.setText("");
-        passwordTF.setText("");
+        passwordPF.setText("");
         guiLiaison.setCurrentFrame("mainFrame");
     }//GEN-LAST:event_confirmBTNActionPerformed
+
+    private void showPasswordCKBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showPasswordCKBActionPerformed
+        // TODO add your handling code here:
+        if (showPasswordCKB.isSelected())
+            passwordPF.setEchoChar((char)0);
+        else
+            passwordPF.setEchoChar('\u2022');
+    }//GEN-LAST:event_showPasswordCKBActionPerformed
+
+    private void passwordPFKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordPFKeyReleased
+        // TODO add your handling code here:
+        char[] passwordChars = passwordPF.getPassword();
+        String password = new String(passwordChars);
+        Arrays.fill(passwordChars, 'a');
+        if (password.length() > 0) {
+            switch (passwordLiaison.calculatePasswordStrength(password)) {
+                case 0:
+                    progressLBL.setText("Weak");
+                    hintTA.setText("Password should contain at least 8 characters and up to 64 characters.");
+                    strengthPB.setValue(33);
+                    strengthPB.setForeground(Color.red);
+                    break;
+                case 1:
+                    progressLBL.setText("Moderate");
+                    hintTA.setText("Password should not be a common/dictionary term.");
+                    strengthPB.setValue(66);
+                    strengthPB.setForeground(Color.yellow);
+                    break;
+                case 2:
+                    progressLBL.setText("Strong");
+                    hintTA.setText("Password is acceptable. Final note: Avoid birthdays.");
+                    strengthPB.setValue(100);
+                    strengthPB.setForeground(Color.green);
+                    break;
+            }
+        }
+        else {
+            progressLBL.setText("???");
+            hintTA.setText("Please enter your desired password.");
+            strengthPB.setValue(0);
+            strengthPB.setForeground(Color.white);
+        }
+    }//GEN-LAST:event_passwordPFKeyReleased
 
     public void setGUILiaison(GUIManager manager) {
         guiLiaison = manager;
@@ -162,6 +251,7 @@ public class CreateAccountFrame extends javax.swing.JFrame {
     public void setPasswordLiaison(PasswordManager manager) {
         passwordLiaison = manager;
     }
+   
     /**
      * @param args the command line arguments
      */
@@ -188,6 +278,7 @@ public class CreateAccountFrame extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(CreateAccountFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -200,9 +291,15 @@ public class CreateAccountFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backBTN;
     private javax.swing.JButton confirmBTN;
+    private javax.swing.JTextArea hintTA;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel nameLBL;
     private javax.swing.JTextField nameTF;
     private javax.swing.JLabel passwordLBL;
-    private javax.swing.JTextField passwordTF;
+    private javax.swing.JPasswordField passwordPF;
+    private javax.swing.JLabel progressLBL;
+    private javax.swing.JCheckBox showPasswordCKB;
+    private javax.swing.JLabel strengthLBL;
+    private javax.swing.JProgressBar strengthPB;
     // End of variables declaration//GEN-END:variables
 }

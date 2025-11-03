@@ -39,7 +39,7 @@ public class PasswordManager {
         return hash;
     }
     
-    public boolean storeCredentials(String username, String hash) {
+    public boolean storeCredentialsRemotely(String username, String hash) {
 //        File f = new File("passwords.txt");
 //        try {
 //            FileWriter fw = new FileWriter(f, true);
@@ -60,6 +60,32 @@ public class PasswordManager {
             System.out.println(ex.getMessage());
         }
         return false;
+    }
+    
+    public boolean storeCredentialsLocally(String username, String hash) {
+        return true;
+    }
+    
+    public boolean storeSQLCredentialsLocally() {
+                    File f = new File("sqlsettings.txt");
+            try {
+                FileWriter fw = new FileWriter(f);
+                fw.write(sql_hostName);
+                fw.write("\n");
+                fw.write(sql_portNo);
+                fw.write("\n");
+                fw.write(sql_databaseName);
+                fw.write("\n");
+                fw.write(sql_userName);
+                fw.write("\n");
+                fw.write(sql_password);
+                fw.close();
+                System.out.println("Writing credentials to file...");
+                return true;
+            } catch (IOException ex) {
+                System.out.println(ex.getMessage());
+            }
+            return false;
     }
     
     public boolean assertCredentialsCorrect(String username, String password) {
@@ -157,6 +183,31 @@ public class PasswordManager {
             JOptionPane.showMessageDialog(null, "Warning: No valid database settings detected. You will be unable to avail"
                     + " of the application's functionality.");
         }
+    }
+    
+    public int calculatePasswordStrength(String password) {
+        // NIST password recommendations (ISC2 CISSP)
+        // passwords should be at least eight characters and as many as 64 characters
+        // password system should screen passwords for commonly used phrases and dictionary terms
+        // dictionary provided courtesy of Daniel Miessler - SecLists
+        // 0 = weak, 1 = moderate, 2 = strong
+        if (password.length() < 8 || password.length() > 64)
+            return 0;
+        else {
+            File f = new File("commonpws.txt");
+            String line = "";
+            try {
+                Scanner scan = new Scanner(f);
+                while (scan.hasNextLine()) {
+                    line = scan.nextLine();
+                    if (line.equals(password)) 
+                        return 1;
+                }
+            } catch (IOException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+        return 2;
     }
     
     public String getSql_hostName() {
