@@ -170,12 +170,6 @@ public class CreateAccountFrame extends javax.swing.JFrame {
     private void backBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBTNActionPerformed
         // TODO add your handling code here:
         guiLiaison.setCurrentFrame("mainFrame");
-        nameTF.setText("");
-        passwordPF.setText("");
-        progressLBL.setText("???");
-        hintTA.setText("Please enter your desired password.");
-        strengthPB.setValue(0);
-        strengthPB.setForeground(Color.white);
     }//GEN-LAST:event_backBTNActionPerformed
 
     private void confirmBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmBTNActionPerformed
@@ -198,7 +192,7 @@ public class CreateAccountFrame extends javax.swing.JFrame {
             return;
         }
         String hash = passwordLiaison.computePassHash(password);
-        if (passwordLiaison.storeCredentialsRemotely(username, hash) && passwordLiaison.calculatePasswordStrength(password) == 4)
+        if (passwordLiaison.storeCredentialsRemotely(username, hash))
             JOptionPane.showMessageDialog(rootPane, "Account has been created!");
         else
             JOptionPane.showMessageDialog(rootPane, "Could not create account.");
@@ -230,23 +224,11 @@ public class CreateAccountFrame extends javax.swing.JFrame {
                     break;
                 case 1:
                     progressLBL.setText("Moderate");
-                    hintTA.setText("Password should not contain repeating characters.");
-                    strengthPB.setValue(66);
-                    strengthPB.setForeground(Color.yellow);
-                    break;
-                case 2:
-                    progressLBL.setText("Moderate");
-                    hintTA.setText("Password should not contain patterns e.g. 'abc'");
-                    strengthPB.setValue(66);
-                    strengthPB.setForeground(Color.yellow);
-                    break;
-                case 3:
-                    progressLBL.setText("Moderate");
                     hintTA.setText("Password should not be a common/dictionary term.");
                     strengthPB.setValue(66);
                     strengthPB.setForeground(Color.yellow);
                     break;
-                case 4:
+                case 2:
                     progressLBL.setText("Strong");
                     hintTA.setText("Password is acceptable. Final note: Avoid birthdays.");
                     strengthPB.setValue(100);

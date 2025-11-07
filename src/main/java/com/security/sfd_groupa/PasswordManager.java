@@ -17,7 +17,6 @@ import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
  * @author rokom
  * This class is tasked with the secure storage and hashing of user-specified passwords.
  * Code inspired by: https://www.baeldung.com/java-argon2-hashing
- * Regular expression documentation: https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html
  */
 public class PasswordManager {
     private ArrayList<Credentials> passwords;
@@ -190,36 +189,25 @@ public class PasswordManager {
         // NIST password recommendations (ISC2 CISSP)
         // passwords should be at least eight characters and as many as 64 characters
         // password system should screen passwords for commonly used phrases and dictionary terms
-        // there should be no excessive repetition of characters (>3) or patterns of alphabetically adjacent characters 
         // dictionary provided courtesy of Daniel Miessler - SecLists
-        // 0 = weak, 1 = moderate with repetition, 2 = moderate with pattern, 3 = moderate with dictionary word, 4 = strong
+        // 0 = weak, 1 = moderate, 2 = strong
         if (password.length() < 8 || password.length() > 64)
             return 0;
-        else if (password.length() > 2) {
-            for (int i = 0; i < password.length() - 2; i++) {
-                // scan input for repetition
-                if (password.charAt(i) == password.charAt(i+1)
-                        && password.charAt(i) == password.charAt(i+2))
-                    return 1;
-                // verify if the proposed password contains a pattern
-                if (password.charAt(i + 1) == password.charAt(i) + 1
-                        && password.charAt(i + 2) == password.charAt(i) + 2)
-                    return 2;
+        else {
+            File f = new File("commonpws.txt");
+            String line = "";
+            try {
+                Scanner scan = new Scanner(f);
+                while (scan.hasNextLine()) {
+                    line = scan.nextLine();
+                    if (line.equals(password)) 
+                        return 1;
+                }
+            } catch (IOException ex) {
+                System.out.println(ex.getMessage());
             }
         }
-        File f = new File("commonpws.txt");
-        String line = "";
-        try {
-            Scanner scan = new Scanner(f);
-            while (scan.hasNextLine()) {
-                line = scan.nextLine();
-                if (line.equals(password)) 
-                    return 3;
-            }
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
-        }
-        return 4;
+        return 2;
     }
     
     public String getSql_hostName() {
