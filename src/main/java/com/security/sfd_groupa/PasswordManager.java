@@ -71,15 +71,15 @@ public class PasswordManager {
                     File f = new File("sqlsettings.txt");
             try {
                 FileWriter fw = new FileWriter(f);
-                fw.write(sql_hostName);
+                fw.write(CaesarUtils.encryptPassword(sql_hostName, 1));
                 fw.write("\n");
-                fw.write(sql_portNo);
+                fw.write(CaesarUtils.encryptPassword(sql_portNo, 2));
                 fw.write("\n");
-                fw.write(sql_databaseName);
+                fw.write(CaesarUtils.encryptPassword(sql_databaseName, 4));
                 fw.write("\n");
-                fw.write(sql_userName);
+                fw.write(CaesarUtils.encryptPassword(sql_userName, 8));
                 fw.write("\n");
-                fw.write(sql_password);
+                fw.write(CaesarUtils.encryptPassword(sql_password, 16));
                 fw.close();
                 System.out.println("Writing credentials to file...");
                 return true;
@@ -136,7 +136,7 @@ public class PasswordManager {
 //        }
         MySQLConnection sqlCon = new MySQLConnection(sql_hostName, sql_portNo, sql_databaseName, sql_userName, sql_password);
         try {
-        if (username.equals(sqlCon.executeQuery("SELECT Username FROM Credentials WHERE Username = " + "'" + username + "';", "Username")))
+        if (username.equals(sqlCon.executeQuery("SELECT Username FROM Credentials WHERE BINARY Username = " + "'" + username + "';", "Username")))
             return true;
         } catch (ClassNotFoundException ex) {
             System.out.println(ex.getMessage());
@@ -158,19 +158,19 @@ public class PasswordManager {
                     counter++;
                     switch (counter) {
                         case 1:
-                            sql_hostName = line;
+                            sql_hostName = CaesarUtils.decryptPassword(line, 1);
                             break;
                         case 2:
-                            sql_portNo = line;
+                            sql_portNo = CaesarUtils.decryptPassword(line, 2);
                             break;
                         case 3:
-                            sql_databaseName = line;
+                            sql_databaseName = CaesarUtils.decryptPassword(line, 4);
                             break;
                         case 4:
-                            sql_userName = line;
+                            sql_userName = CaesarUtils.decryptPassword(line, 8);
                             break;
                         case 5:
-                            sql_password = line;
+                            sql_password = CaesarUtils.decryptPassword(line, 16);
                             break;
                     }
                 }
