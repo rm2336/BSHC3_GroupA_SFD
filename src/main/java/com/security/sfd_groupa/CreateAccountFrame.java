@@ -204,6 +204,7 @@ public class CreateAccountFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Could not create account.");
         nameTF.setText("");
         passwordPF.setText("");
+        strengthPB.setValue(0);
         guiLiaison.setCurrentFrame("mainFrame");
     }//GEN-LAST:event_confirmBTNActionPerformed
 

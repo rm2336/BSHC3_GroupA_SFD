@@ -56,7 +56,7 @@ public class encryptionTest {
         CaesarUtils.decryptPassword(encryptedPasswordOutput, 0);
         String decryptedPasswordOutput = CaesarUtils.decryptPassword(encryptedPasswordOutput, 2);
         System.out.println(decryptedPasswordOutput);
-    }
+    }  
     
     
 }
